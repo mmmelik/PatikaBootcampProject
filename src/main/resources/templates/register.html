@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="tr">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link th:href="@{/main.css}" rel="stylesheet" type="text/css">
+    <title>PatikaBootCampProject | Kayıt Ol</title>
+
+    <script>
+
+        function checkName() {
+            var name = document.getElementById("nameInput");
+            if (name.value.length < 3) {
+                name.classList.add("is-invalid")
+                return false;
+            } else {
+                name.classList.remove("is-invalid")
+                return true;
+            }
+        }
+
+        function checkTCKN() {
+            var tckn = document.getElementById("tcknInput");
+            if (tckn.value.length != 11) {
+                tckn.classList.add("is-invalid")
+                return false;
+            } else {
+                tckn.classList.remove("is-invalid")
+                return true;
+            }
+        }
+        
+
+        function checkPhone() {
+            var phone = document.getElementById("phoneInput");
+            if (phone.value.length != 10) {
+                phone.classList.add("is-invalid")
+                return false;
+            } else {
+                phone.classList.remove("is-invalid")
+                return true;
+            }
+        }
+
+        function checkPass() {
+            var pass1 = document.getElementById("passwordInput");
+            if (pass1.value.length < 6) {
+                pass1.classList.add("is-invalid")
+                return false;
+            } else {
+                pass1.classList.remove("is-invalid")
+                checkPass2();
+                return true;
+            }
+        }
+
+        function checkPass2() {
+            var pass1 = document.getElementById("passwordInput");
+            var pass2 = document.getElementById("passwordInput2");
+            if (pass1.value != pass2.value) {
+                pass2.classList.add("is-invalid")
+                return false;
+            } else {
+                pass2.classList.remove("is-invalid")
+                return true;
+            }
+        }
+
+        function validateForm(functions) {
+            var flag=true;
+            if(!checkName()){
+                flag=false;
+            }
+            if(!checkTCKN()){
+                flag=false;
+            }
+            if(!checkPass()){
+                flag=false;
+            }
+            if(!checkPass2()){
+                flag=false;
+            }
+            return flag;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container col-sm-10 col-md-6 col-lg-5 col-xl-4">
+        <div class="card mt-3">
+            <div class="card-header text-center">
+                Kayıt
+            </div>
+            <div class="card-body p-3">
+                <form onsubmit="return validateForm();" th:object="${registerRequest}" th:action="@{/register}" method="post">
+                    <div class="mb-3">
+                        <label for="nameInput" class="form-label">Ad Soyad</label>
+                        <input id="nameInput" class="form-control no-arrows" type="text" onfocusout="checkName()"
+                            onkeyup="checkName()" th:field="*{name}">
+                        <div class="invalid-feedback">
+                            İsminiz en az 3 karakter olmalı.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneInput" class="form-label">Telefon Numarası</label>
+                        <input id="phoneInput" class="form-control no-arrows" type="number" onfocusout="checkPhone()"
+                               onkeyup="checkPhone()" th:field="*{phone}">
+                        <div class="invalid-feedback">
+                            Telefon numarası başında sıfır(0) olmadan 10 haneli olmalıdır.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tcknInput" class="form-label">TC Kimlik Numarası</label>
+                        <input id="tcknInput" class="form-control no-arrows" type="number" onfocusout="checkTCKN()"
+                            onkeyup="checkTCKN()" th:field="*{tckn}">
+                        <div class="invalid-feedback">
+                            TC kimlik numarası 11 haneli ve <a href="https://tr.wikipedia.org/wiki/T.C._Kimlik_Numaras%C4%B1" target="_blank">geçerli</a> olmalıdır.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="passwordInput" class="form-label">Şifre</label>
+                        <input id="passwordInput" class="form-control" type="password" onfocusout="checkPass()"
+                            onkeyup="checkPass()" th:field="*{password}">
+                        <div class="invalid-feedback">
+                            Şifreniz en az 6 karakter olmalıdır.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="passwordInput2" class="form-label">Şifre Tekrar</label>
+                        <input id="passwordInput2" class="form-control" type="password" onfocusout="checkPass2()"
+                            onkeyup="checkPass2()">
+                        <div class="invalid-feedback">
+                            Şifreler uyuşmuyor.
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary px-4" onsubmit="submit()">Kayıt Ol</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

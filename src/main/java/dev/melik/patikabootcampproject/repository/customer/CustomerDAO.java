@@ -4,7 +4,10 @@ import java.util.Optional;
 
 public interface CustomerDAO {
 
-    Optional<CustomerEntity> getCustomerByTCKN(Long tckn);
+    CustomerEntity getCustomerByTCKN(Long tckn);
 
     CustomerEntity saveCustomer(CustomerEntity customer);
+
+    boolean isPresent(Long tckn);
+
 }

@@ -12,12 +12,22 @@ public class CustomerDAOImpl implements CustomerDAO{
     private final CustomerJpaRepository customerJpaRepository;
 
     @Override
-    public Optional<CustomerEntity> getCustomerByTCKN(Long tckn) {
-        return customerJpaRepository.findByTckn(tckn);
+    public CustomerEntity getCustomerByTCKN(Long tckn) {
+        Optional<CustomerEntity> optionalCustomerEntity=customerJpaRepository.findByTckn(tckn);
+        if (optionalCustomerEntity.isPresent()){
+            return optionalCustomerEntity.get();
+        }else {
+            throw new RuntimeException("User "+ tckn + " not found.");
+        }
     }
 
     @Override
     public CustomerEntity saveCustomer(CustomerEntity customer) {
         return customerJpaRepository.save(customer);
+    }
+
+    @Override
+    public boolean isPresent(Long tckn) {
+        return customerJpaRepository.existsByTckn(tckn);
     }
 }

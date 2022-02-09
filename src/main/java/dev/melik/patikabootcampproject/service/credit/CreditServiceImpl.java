@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -26,18 +27,14 @@ public class CreditServiceImpl implements CreditService{
 
     @Override
     @Transactional
-    public Credit apply(Credit credit) {
+    public Credit apply(Long tckn, Credit credit) {
 
         final int creditLimitMultiplier=4;
 
         //Customer verification
         //Create customer if not present
-        Customer customer=credit.getCustomer();
-        Optional<CustomerEntity> optionalCustomer=customerDAO.getCustomerByTCKN(customer.getTckn());
-        optionalCustomer.ifPresentOrElse(c -> credit.setCustomer(Customer.fromEntity(c)),()->{
-            Customer createdCustomer = Customer.fromEntity(customerDAO.saveCustomer(customer.toEntity()));
-            credit.setCustomer(createdCustomer);
-        });
+        Customer customer=Customer.fromEntity(customerDAO.getCustomerByTCKN(tckn));
+        credit.setCustomer(customer);
 
         //Credit Calculations
         Integer creditScore=getCreditScore(credit.getCustomer().getTckn());
@@ -55,14 +52,30 @@ public class CreditServiceImpl implements CreditService{
 
     }
 
-    private Integer getCreditScore(Long tckn){
+    @Override
+    public Credit getCreditById(Long tckn, Long id) {
+        Credit credit=Credit.fromEntity(creditDAO.getCreditById(id));
+        if (!tckn.equals(credit.getCustomer().getTckn())){
+            throw new RuntimeException("Unauthorized request");
+        }
+
+        credit.setCreditScore(creditScoreDAO.getCreditScore(credit.getCustomer().getTckn()));
+        return credit;
+    }
+
+    @Override
+    public List<Credit> getCreditsOf(Long tckn) {
+        return Credit.fromEntity(customerDAO.getCustomerByTCKN(tckn).getCreditApplications());
+    }
+
+    public Integer getCreditScore(Long tckn){
         try {
             return creditScoreDAO.getCreditScore(tckn);
         }catch (CreditScoreNotCalculatedException e){
             //Create new Credit Score
             CreditScoreEntity newCreditScore=new CreditScoreEntity();
             newCreditScore.setTckn(tckn);
-            newCreditScore.setScore(new Random().nextInt(0,1001));
+            newCreditScore.setScore(new Random().nextInt(0,2000));
 
             creditScoreDAO.saveCreditScore(newCreditScore);
 

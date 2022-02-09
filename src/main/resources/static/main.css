@@ -1,0 +1,14 @@
+.no-arrows::-webkit-outer-spin-button,::-webkit-inner-spin-button{
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+}
+.credit-score:hover{
+    cursor: pointer;
+}
+.credit-result-list-item:hover{
+    cursor: pointer;
+    background-color: rgb(240, 240, 240);
+    margin: 0;
+}
