@@ -1,10 +1,13 @@
-package dev.melik.patikabootcampproject.config.security;
+package dev.melik.patikabootcampproject.adapter.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.melik.patikabootcampproject.controller.customer.LoginRequest;
+import dev.melik.patikabootcampproject.adapter.rest.customer.LoginRequest;
+import dev.melik.patikabootcampproject.domain.exception.ExceptionType;
+import dev.melik.patikabootcampproject.domain.exception.PatikaAuthenticationException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -38,7 +41,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getTckn(), loginRequest.getPassword(), new ArrayList<>()));
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Invalid request");
+            throw new PatikaAuthenticationException(ExceptionType.BAD_LOGIN_REQUEST,"Unable to map request body");
         }
     }
 
@@ -50,5 +53,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .signWith(SignatureAlgorithm.HS512, SecurityConstant.SECRET.getBytes())
                 .compact();
         response.addHeader(SecurityConstant.HEADER_STRING, SecurityConstant.TOKEN_PREFIX + token);
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
     }
 }
