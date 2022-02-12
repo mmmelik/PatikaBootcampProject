@@ -14,7 +14,7 @@ services:
       - patikaNetwork
 
   patika-redis:
-    image: redis
+    image: bitnami/redis:latest
     container_name: patika-redis
     ports:
       - '6379:6379'

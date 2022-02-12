@@ -1,6 +1,8 @@
 package dev.melik.patikabootcampproject.adapter.rest.common;
 
+import dev.melik.patikabootcampproject.domain.exception.ExceptionType;
 import dev.melik.patikabootcampproject.domain.exception.PatikaDataNotFoundException;
+import dev.melik.patikabootcampproject.domain.exception.PatikaRegistrationException;
 import dev.melik.patikabootcampproject.domain.exception.PatikaUnauthorizedRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,5 +23,19 @@ public class ExceptionController {
     public ExceptionResponse handleUnauthorizedRequest(PatikaUnauthorizedRequestException e){
         return new ExceptionResponse(e.getExceptionType(),e.getDetail());
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(PatikaRegistrationException.class)
+    public ExceptionResponse handleRegistrationException(PatikaRegistrationException e){
+        return new ExceptionResponse(e.getExceptionType(),e.getDetail());
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public ExceptionResponse handleRegistrationException(Exception e){
+        return new ExceptionResponse(ExceptionType.GENERIC_EXCEPTION,e.getMessage());
+    }
+
+
 
 }
