@@ -1,6 +1,7 @@
 package dev.melik.patikabootcampproject.domain.credit;
 
 import dev.melik.patikabootcampproject.domain.customer.Customer;
+import dev.melik.patikabootcampproject.domain.port.api.SmsApiPort;
 import dev.melik.patikabootcampproject.domain.port.persistence.CreditPersistencePort;
 import dev.melik.patikabootcampproject.domain.port.persistence.CustomerPersistencePort;
 import dev.melik.patikabootcampproject.domain.port.persistence.CreditScorePersistencePort;
@@ -20,6 +21,8 @@ public class CreditService{
     private final CustomerPersistencePort customerPersistencePort;
 
     private final CreditScorePersistencePort creditScorePersistencePort;
+
+    private final SmsApiPort smsApiPort;
 
     @Transactional
     public Credit apply(Long tckn, Credit credit) {
@@ -42,7 +45,23 @@ public class CreditService{
             credit.setCreditStatus(CreditStatus.GRANTED);
             credit.setAmount(credit.getIncome()*creditLimitMultiplier);
         }
-        return creditPersistencePort.saveCreditApplication(credit);
+        credit = creditPersistencePort.saveCreditApplication(credit);
+
+        //Send sms
+        smsApiPort.sendCreditApplicationSms(credit.getCustomer().getPhone(),generateCreditApplicationSms(credit));
+
+        return credit;
+    }
+
+    private String generateCreditApplicationSms(Credit credit) {
+        StringBuilder builder=new StringBuilder();
+        builder.append("Sayın ")
+                .append(credit.getCustomer().getName())
+                .append(", \n ")
+                .append(credit.getCreditStatus()==CreditStatus.GRANTED?"Kredi başvurunuz onaylanmıştır.":"Kredi başvurunuz reddedilmiştir.")
+                .append(credit.getCreditStatus()==CreditStatus.GRANTED?"Onaylanan miktar "+credit.getAmount():"");
+
+        return builder.toString();
     }
 
     public Credit getCreditById(Long tckn, Long id) {
