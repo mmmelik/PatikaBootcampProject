@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.Optional;
 
 @Service
@@ -22,6 +23,6 @@ public class CreditScoreCacheAdapter implements CreditScoreCachePort {
 
     @Override
     public void saveCreditScore(Long tckn, Integer score) {
-        creditScoreRedisTemplate.opsForValue().set("project:score:"+tckn,CreditScore.builder().tckn(tckn).score(score).build());
+        creditScoreRedisTemplate.opsForValue().set("project:score:"+tckn,CreditScore.builder().tckn(tckn).score(score).build(), Duration.ofDays(1));
     }
 }
