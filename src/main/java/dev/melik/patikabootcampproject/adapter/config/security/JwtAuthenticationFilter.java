@@ -41,7 +41,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getTckn(), loginRequest.getPassword(), new ArrayList<>()));
         } catch (IOException e) {
             e.printStackTrace();
-            throw new PatikaAuthenticationException(ExceptionType.BAD_LOGIN_REQUEST,"Unable to map request body");
+            throw new PatikaAuthenticationException(ExceptionType.BAD_LOGIN_REQUEST_EXCEPTION,"Unable to map request body");
         }
     }
 

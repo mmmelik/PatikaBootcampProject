@@ -4,6 +4,10 @@ import java.util.Random;
 
 public class TCKNHelper {
 
+    private TCKNHelper(){
+        throw new IllegalStateException();
+    }
+
     public static boolean validate(long id){
         if (id>99999999999L||id<10000000000L){
             return false;

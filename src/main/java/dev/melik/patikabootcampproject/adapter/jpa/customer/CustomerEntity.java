@@ -2,6 +2,7 @@ package dev.melik.patikabootcampproject.adapter.jpa.customer;
 
 import dev.melik.patikabootcampproject.adapter.jpa.common.BaseEntity;
 import dev.melik.patikabootcampproject.adapter.jpa.credit.CreditEntity;
+import dev.melik.patikabootcampproject.domain.customer.Customer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,4 +32,25 @@ public class CustomerEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "customer")
     private List<CreditEntity> creditApplications = new java.util.ArrayList<>();
+
+    public static CustomerEntity from(Customer customer) {
+        CustomerEntity customerEntity=new CustomerEntity();
+        customerEntity.setId(customer.getId());
+        customerEntity.setTckn(customer.getTckn());
+        customerEntity.setPassword(customer.getPassword());
+        customerEntity.setName(customer.getName());
+        customerEntity.setPhone(customer.getPhone());
+        return customerEntity;
+    }
+
+    public Customer toModel() {
+        return Customer.builder()
+                .id(id)
+                .phone(phone)
+                .name(name)
+                .tckn(tckn)
+                .name(name)
+                .password(password)
+                .build();
+    }
 }

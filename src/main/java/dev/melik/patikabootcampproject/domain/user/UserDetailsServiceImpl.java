@@ -1,6 +1,6 @@
 package dev.melik.patikabootcampproject.domain.user;
 
-import dev.melik.patikabootcampproject.adapter.jpa.customer.CustomerDAO;
+import dev.melik.patikabootcampproject.domain.port.persistence.CustomerPersistencePort;
 import dev.melik.patikabootcampproject.domain.customer.Customer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +17,12 @@ import java.util.ArrayList;
 @Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final CustomerDAO customerDAO;
+    private final CustomerPersistencePort customerPersistencePort;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("Load user " + username);
-        Customer customer=Customer.fromEntity(customerDAO.getCustomerByTCKN(Long.parseLong(username)));
+        Customer customer=customerPersistencePort.getCustomerByTCKN(Long.parseLong(username));
         return User.builder()
                 .username(customer.getTckn().toString())
                 .password(customer.getPassword())

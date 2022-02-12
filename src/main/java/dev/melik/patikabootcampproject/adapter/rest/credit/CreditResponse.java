@@ -1,7 +1,7 @@
 package dev.melik.patikabootcampproject.adapter.rest.credit;
 
 import dev.melik.patikabootcampproject.domain.credit.Credit;
-import dev.melik.patikabootcampproject.adapter.repository.CreditStatus;
+import dev.melik.patikabootcampproject.domain.credit.CreditStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
