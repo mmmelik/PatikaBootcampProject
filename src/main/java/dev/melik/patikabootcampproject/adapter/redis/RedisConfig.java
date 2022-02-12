@@ -27,15 +27,6 @@ public class RedisConfig {
         return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
 
-    @Bean("creditRedisTemplate")
-    public RedisTemplate<String, Credit> creditRedisTemplate(LettuceConnectionFactory lettuceConnectionFactory){
-        RedisTemplate<String, Credit> template = new RedisTemplate<>();
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        template.setConnectionFactory(lettuceConnectionFactory);
-        return template;
-    }
-
     @Bean("creditScoreRedisTemplate")
     public RedisTemplate<String, CreditScore> creditScoreRedisTemplate(LettuceConnectionFactory lettuceConnectionFactory){
         RedisTemplate<String, CreditScore> template = new RedisTemplate<>();
