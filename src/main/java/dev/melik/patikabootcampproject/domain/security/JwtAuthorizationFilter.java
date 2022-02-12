@@ -1,4 +1,4 @@
-package dev.melik.patikabootcampproject.adapter.config.security;
+package dev.melik.patikabootcampproject.domain.security;
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.http.HttpStatus;

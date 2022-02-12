@@ -1,4 +1,4 @@
-package dev.melik.patikabootcampproject.adapter.config.security;
+package dev.melik.patikabootcampproject.domain.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.melik.patikabootcampproject.adapter.rest.customer.LoginRequest;

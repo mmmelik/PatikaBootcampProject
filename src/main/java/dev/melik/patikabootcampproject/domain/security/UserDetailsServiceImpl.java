@@ -1,4 +1,4 @@
-package dev.melik.patikabootcampproject.domain.user;
+package dev.melik.patikabootcampproject.domain.security;
 
 import dev.melik.patikabootcampproject.domain.port.persistence.CustomerPersistencePort;
 import dev.melik.patikabootcampproject.domain.customer.Customer;

@@ -1,7 +1,5 @@
-package dev.melik.patikabootcampproject.adapter.config;
+package dev.melik.patikabootcampproject.domain.security;
 
-import dev.melik.patikabootcampproject.adapter.config.security.JwtAuthenticationFilter;
-import dev.melik.patikabootcampproject.adapter.config.security.JwtAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

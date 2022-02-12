@@ -1,4 +1,4 @@
-package dev.melik.patikabootcampproject.adapter.config.security;
+package dev.melik.patikabootcampproject.domain.security;
 
 public class SecurityConstant {
     public static final String SECRET = "xrN2wrFwZr";
