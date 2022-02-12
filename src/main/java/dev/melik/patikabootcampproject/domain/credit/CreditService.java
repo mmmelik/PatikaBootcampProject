@@ -2,16 +2,21 @@ package dev.melik.patikabootcampproject.domain.credit;
 
 import dev.melik.patikabootcampproject.domain.customer.Customer;
 import dev.melik.patikabootcampproject.domain.port.api.SmsApiPort;
+import dev.melik.patikabootcampproject.domain.port.cache.CreditScoreCachePort;
 import dev.melik.patikabootcampproject.domain.port.persistence.CreditPersistencePort;
 import dev.melik.patikabootcampproject.domain.port.persistence.CustomerPersistencePort;
 import dev.melik.patikabootcampproject.domain.port.persistence.CreditScorePersistencePort;
 import dev.melik.patikabootcampproject.domain.exception.ExceptionType;
 import dev.melik.patikabootcampproject.domain.exception.PatikaUnauthorizedRequestException;
+import dev.melik.patikabootcampproject.domain.score.CreditScore;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreditService{
@@ -21,6 +26,8 @@ public class CreditService{
     private final CustomerPersistencePort customerPersistencePort;
 
     private final CreditScorePersistencePort creditScorePersistencePort;
+
+    private final CreditScoreCachePort creditScoreCachePort;
 
     private final SmsApiPort smsApiPort;
 
@@ -81,7 +88,18 @@ public class CreditService{
     }
 
     public Integer getCreditScore(Long tckn) {
-        return creditScorePersistencePort.getCreditScore(tckn);
+        //get from cache
+        Optional<CreditScore> creditScoreCache = creditScoreCachePort.getCreditScore(tckn);
+        if (creditScoreCache.isPresent()){
+            log.info("Retrieved credit score from cache: "+tckn);
+            return creditScoreCache.get().getScore();
+        }
+
+        //get from db
+        Integer score=creditScorePersistencePort.getCreditScore(tckn);
+        creditScoreCachePort.saveCreditScore(tckn,score);//update cache
+        log.info("Update credit score cache: "+tckn);
+        return score;
     }
 
 
