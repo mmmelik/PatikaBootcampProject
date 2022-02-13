@@ -41,10 +41,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(String header) {
-        String user = Jwts.parser()
-                .setSigningKey(SecurityConstant.SECRET.getBytes())
-                .parseClaimsJws(header.replace(SecurityConstant.TOKEN_PREFIX, ""))
-                .getBody().getSubject();
+        String user = JwtHelper.getUserFromToken(header.replace(SecurityConstant.TOKEN_PREFIX, ""));
 
         if (user == null) {
             throw new RuntimeException("Unable to parse user from token.");

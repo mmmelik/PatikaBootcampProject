@@ -14,4 +14,11 @@ public class JwtHelper {
                 .signWith(SignatureAlgorithm.HS512, SecurityConstant.SECRET.getBytes())
                 .compact();
     }
+
+    public static String getUserFromToken(String token){
+        return Jwts.parser()
+                .setSigningKey(SecurityConstant.SECRET.getBytes())
+                .parseClaimsJws(token)
+                .getBody().getSubject();
+    }
 }
