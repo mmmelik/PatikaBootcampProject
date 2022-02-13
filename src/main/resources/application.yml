@@ -9,5 +9,8 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
+  redis:
+    host: patika-redis
+    port: 6379
 
 debug: false

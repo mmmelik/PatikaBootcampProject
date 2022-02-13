@@ -1,8 +1,9 @@
 package dev.melik.patikabootcampproject.adapter.redis;
 
-import dev.melik.patikabootcampproject.domain.credit.Credit;
 import dev.melik.patikabootcampproject.domain.score.CreditScore;
 import lombok.RequiredArgsConstructor;
+
+
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

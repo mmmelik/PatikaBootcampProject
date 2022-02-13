@@ -4,11 +4,13 @@ import dev.melik.patikabootcampproject.domain.exception.ExceptionType;
 import dev.melik.patikabootcampproject.domain.exception.PatikaDataNotFoundException;
 import dev.melik.patikabootcampproject.domain.exception.PatikaRegistrationException;
 import dev.melik.patikabootcampproject.domain.exception.PatikaUnauthorizedRequestException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class ExceptionController {
 
@@ -33,6 +35,7 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ExceptionResponse handleRegistrationException(Exception e){
+        log.error(e.toString(),e);
         return new ExceptionResponse(ExceptionType.GENERIC_EXCEPTION,e.getMessage());
     }
 
