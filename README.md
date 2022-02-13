@@ -51,3 +51,4 @@ java -jar /target/PatikaBootcampProject-0.0.1-SNAPSHOT.jar
 - org.postgresql.postgresql
 - org.projectlombok.lombok
 - io.jsonwebtoken.jjwt
+- HTML, CSS, Bootstrap 5
