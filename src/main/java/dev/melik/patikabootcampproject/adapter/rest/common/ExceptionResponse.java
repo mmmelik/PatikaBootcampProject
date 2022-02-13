@@ -1,11 +1,15 @@
 package dev.melik.patikabootcampproject.adapter.rest.common;
 
 import dev.melik.patikabootcampproject.domain.exception.ExceptionType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ExceptionResponse {
 
     private Integer code;
