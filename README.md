@@ -17,7 +17,7 @@ I suggest you take a look at the [web application](https://bootcamp.melik.dev/) 
 - REST APIs
 - SMS api(Ready to integrate with any paid service)
 - [Postman Documentation](https://documenter.getpostman.com/view/8989003/UVeNkhJQ)
-- Live demo on [bootcamp.melik.dev](bootcamp.melik.dev)
+- Live demo on [bootcamp.melik.dev](https://bootcamp.melik.dev)
 
 ## Requirements
 
